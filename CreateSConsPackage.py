@@ -2,8 +2,8 @@
 #
 # This script creates a Mac OS X .pkg installer for SCons from a SCons tarball passed on the command line.
 #
-#       e.g. python CreateSConsPackage.py scons-2.0.1.tar.gz
-#   
+#       e.g. python CreateSConsPackage.py scons-2.2.0.tar.gz
+#
 
 import atexit, os, sys, tempfile
 
@@ -41,8 +41,15 @@ if os.system("tar -C %s -xf %s && mv %s/scons-%s/* %s" % (installedDirectory, sc
     print "*** Failed extracting and relocating SCons tarball ***"
     exit(1)
 
+# Locate the PackageMaker binary
+packageMakerBinary = "/Applications/PackageMaker.app/Contents/MacOS/PackageMaker"
+if not os.path.exists(packageMakerBinary):
+    packageMakerBinary = "/Developer/usr/bin/packagemaker"
+    if not os.path.exists(packageMakerBinary):
+        print "*** PackageMaker is not installed ***"
+
 print "Creating package with PackageMaker ..."
-if os.system("/Developer/usr/bin/packagemaker \
+if os.system("%s \
     --title \"SCons %s\" \
     --id com.tigris.SCons.pkg \
     --target 10.5 \
@@ -54,7 +61,7 @@ if os.system("/Developer/usr/bin/packagemaker \
     --out \"%s.pkg\" \
     --scripts Scripts/ \
     --no-relocate" \
-    % (sconsVersion, packageDirectory, packageName)) != 0:
+    % (packageMakerBinary, sconsVersion, packageDirectory, packageName)) != 0:
     print "*** Failed creating package ***"
     exit(1)
 
