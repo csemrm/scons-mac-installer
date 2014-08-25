@@ -5,6 +5,8 @@ Takes a [SCons](http://www.scons.org/) release tarball and makes a standard Mac 
 
 Mac OS X installer downloads for recent SCons releases are provided:
 
+* [SCons 2.3.3 installer for Mac OS X](http://scons-mac-installer.s3.amazonaws.com/SCons-2.3.3.pkg)
+* [SCons 2.3.2 installer for Mac OS X](http://scons-mac-installer.s3.amazonaws.com/SCons-2.3.2.pkg)
 * [SCons 2.3.1 installer for Mac OS X](http://scons-mac-installer.s3.amazonaws.com/SCons-2.3.1.pkg)
 * [SCons 2.3.0 installer for Mac OS X](http://scons-mac-installer.s3.amazonaws.com/SCons-2.3.0.pkg)
 * [SCons 2.2.0 installer for Mac OS X](http://scons-mac-installer.s3.amazonaws.com/SCons-2.2.0.pkg)
