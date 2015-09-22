@@ -38,7 +38,7 @@ if os.system('tar -C %s --strip-components 1 -xzf %s' %
 
 # Build the package
 if os.system('xcrun pkgbuild --quiet --identifier com.scons.SCons.pkg \
-              --install-location / --root %s --scripts Scripts/ "%s.pkg"' %
+              --install-location / --root %s --scripts scripts/ "%s.pkg"' %
              (package_directory, package_name)) != 0:
     print 'Error: Failed creating package'
     exit(1)
