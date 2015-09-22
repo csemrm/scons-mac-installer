@@ -2,11 +2,11 @@
 
 import os
 
-targetTempDirectory = "/tmp/SConsInstaller"
+install_dir = '/tmp/SConsInstaller'
 
 # Run the normal SCons install process
-if os.system("cd %s && python setup.py install" % targetTempDirectory) != 0:
+if os.system('cd %s && python setup.py install' % install_dir) != 0:
     exit(1)
 
 # Remove SCons source files now that it has been installed on the target system
-os.system("rm -rf %s" % targetTempDirectory)
+os.system('rm -rf %s' % install_dir)
