@@ -6,7 +6,9 @@
 #       e.g. python create_scons_package.py scons-2.4.0.tar.gz
 #
 
+import atexit
 import os
+import shutil
 import sys
 import tempfile
 
@@ -23,12 +25,17 @@ if not os.path.exists(tarball):
 version = os.path.basename(tarball)[6:-7]
 package_name = 'SCons-%s' % version
 
+# Temporary directory to create the installer package in
+package_directory = tempfile.mkdtemp()
+def cleanup():
+    shutil.rmtree(package_directory)
+atexit.register(cleanup)
+
 # The SCons tarball's contents are put into /tmp/SConsInstaller on the target
 # machine and then the normal 'python setup.py install' process is then run
 # from there. The directory is subsequently deleted by the postinstall script.
-package_directory = tempfile.gettempdir()
 target_directory = package_directory + '/tmp/SConsInstaller'
-os.system('mkdir -p %s' % target_directory)
+os.makedirs(target_directory)
 
 # Extract tarball
 if os.system('tar -C %s --strip-components 1 -xzf %s' %
@@ -38,12 +45,9 @@ if os.system('tar -C %s --strip-components 1 -xzf %s' %
 
 # Build the package
 if os.system('xcrun pkgbuild --quiet --identifier com.scons.SCons.pkg \
-              --install-location / --root %s --scripts scripts/ "%s.pkg"' %
+              --install-location / --root %s --scripts scripts "%s.pkg"' %
              (package_directory, package_name)) != 0:
     print('Error: Failed creating package')
     exit(1)
-
-# Cleanup
-os.system('rm -rf %s' % package_directory)
 
 print('Success, %s.pkg was created' % package_name)
